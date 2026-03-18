@@ -4,66 +4,70 @@
 
 ---
 
-## 🎯 Project Vision
+## 🎯 1. Project Vision
 
-### **The Problem**
-* **혼밥의 어려움**: 혼자 밥 먹기 어색하거나 특정 메뉴(2인 이상)를 먹고 싶을 때
-* **불명확한 약속**: 에브리타임 같은 익명 커뮤니티보다 더 구체적인 식사 약속이 필요할 때
-* **교류 부족**: 캠퍼스 내에서 새로운 친구를 사귀고 싶지만 기회가 부족할 때
+### **Problem or Need**
+대학생들은 종종 다음과 같은 상황을 경험합니다.
+* 혼자 점심을 먹기 애매할 때
+* 새로운 사람들과 교류하고 싶을 때
+* 같은 학교 학생들과 식사 약속을 잡고 싶을 때
 
-### **The Solution**
-* **Meal-based Matching**: 단순 대화가 아닌 '식사'라는 구체적인 목적 중심의 매칭
-* **Taste-Centric**: 선호 음식 데이터를 활용한 취향 저격 게시글 필터링
-* **Real-time Interaction**: 웹소켓 기반의 실시간 소통으로 빠른 약속 확정
+### **Primary Differentiation**
+* **식사 기반 매칭(Meal-based Matching)**: 일반적인 SNS와 달리 '식사'라는 구체적인 목적에 집중합니다.
+* **자연스러운 연결**: 사용자의 음식 취향과 시간을 중심으로 매칭하여 부담 없는 교류를 유도합니다.
 
 ---
 
-## 🛠️ Tech Stack
+## 🚀 2. Project Goals & Scope
+
+### **Business Goals**
+* **백엔드 시스템 개발**: 사용자, 게시글, 음식 취향 관리를 위한 안정적인 시스템 구축
+* **매칭 시스템 구현**: CRUD 기반의 게시판 매칭 로직 완성
+* **실시간 통신**: 서버-클라이언트 간 실시간 데이터 송수신을 위한 **WebSocket** 도입
+* **프로토타입 완성**: 음식 취향 기반으로 친구를 찾을 수 있는 동작 가능한 서비스 구현
+
+### **Major Features**
+* **인증 시스템**: 회원가입 및 로그인 기능
+* **프로필 설정**: 선호 음식(취향) 선택 기능
+* **모집 게시글**: 점심 식사 파트너 모집 및 게시글 관리(CRUD)
+* **스마트 필터링**: 음식 취향 기반의 게시글 필터링
+* **참여 관리**: 댓글 및 참여 신청/수락 시스템
+
+### **Out of Scope**
+* 사용자 간 리뷰 및 평가 시스템
+* 모바일 애플리케이션(App) 버전 개발
+
+---
+
+## 👥 3. Stakeholders & Users
+
+### **Stakeholder Requirements**
+* **개발자 (소프트웨어공학론 2팀)**: 명확한 아키텍처, 정의된 DB 구조와 API, 유지보수가 쉬운 모듈형 코드
+* **교수님**: 시스템 설계 및 CRUD 기능 확인, 체계적인 프로젝트 문서화 수준
+* **사용자 (대학생)**: 간단한 사용성, 취향 기반 필터링, 실시간 채팅을 통한 원활한 소통
+
+---
+
+## 🛠️ 4. Tech Stack
 
 | Category | Technology |
 | :--- | :--- |
 | **Backend** | Java, Spring Boot, Spring Data JPA |
-| **Database** | PostgreSQL |
+| **Database** | PostgreSQL, Redis |
 | **Real-time** | WebSocket (STOMP) |
-| **DevOps** | Docker |
+| **DevOps** | Docker, AWS |
 | **Tools** | IntelliJ, Postman, Git |
 
 ---
 
-## ✨ Major Features
+## 🗺️ 5. Roadmap & Milestones
 
-### 👤 User Management
-* **회원가입/로그인**: 캠퍼스 사용자 인증 및 인가
-* **취향 프로필**: 선호 음식 및 식사 스타일 설정
-
-### 📝 Meal Matching (CRUD)
-* **모집 게시글**: 메뉴, 시간, 장소, 모집 인원 설정 및 작성
-* **필터링**: 내 음식 취향에 맞는 게시글만 골라보기
-* **참여 관리**: 신청 및 승인 프로세스를 통한 그룹 구성
-
-### 💬 Communication
-* **실시간 채팅**: 매칭된 그룹별 독립적인 채팅방 생성
-* **알림**: 참여 신청 및 수락 여부 실시간 확인
+- [x] **Milestone 1**: 초기 기획 (기술 스택 확정, 환경 세팅, ERD/DB 설계)
+- [ ] **Milestone 2**: 회원가입 / 로그인 (인증 및 인가) 구현
+- [ ] **Milestone 3**: 게시글 CRUD 기능 및 필터링 구현
+- [ ] **Milestone 4**: 그룹별 실시간 채팅방 생성 및 연동
 
 ---
 
-## 🗺️ Roadmap & Milestones
-
-- [ ] **Phase 1**: 초기 기획, 개발 환경 세팅, ERD 및 API 설계
-- [ ] **Phase 2**: 사용자 인증/인가 및 기본 프로필 기능 구현
-- [ ] **Phase 3**: 게시글 CRUD 및 취향 기반 필터링 시스템 구축
-- [ ] **Phase 4**: 웹소켓 기반 실시간 채팅방 및 그룹 관리 구현
-- [ ] **Phase 5**: 최종 QA 및 프로토타입 시연 준비
-
----
-
-## 👥 Stakeholders
-
-* **Developer**: 소프트웨어공학론 2팀 (시스템 설계 및 구현)
-* **Evaluator**: 담당 교수님 (설계 및 기능 구현 평가)
-* **User**: 새로운 식사 파트너를 찾는 캠퍼스 대학생
-
----
-
-## 🔗 Repository
-* **GitHub**: [niceome/software_team_2](https://github.com/niceome/software_team_2.git)
+## 🔗 6. Github Address
+* **Repository**: [https://github.com/niceome/software_team_2.git](https://github.com/niceome/software_team_2.git)
