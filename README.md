@@ -61,17 +61,17 @@
 
 | Category | Technology |
 | :--- | :--- |
-| **Backend** | Java 17, Spring Boot 3.x, Spring Data JPA |
-| **Database** | PostgreSQL, Redis |
+| **Backend** | Java 25, Spring Boot 3.4.3, Spring Data JPA |
+| **Database** | PostgreSQL |
 | **Real-time** | WebSocket (STOMP) |
-| **DevOps** | Docker, AWS |
+| **DevOps** | Docker |
 | **Tools** | IntelliJ, Postman, Git |
 
 ---
 
 ## 🗺️ 5. Roadmap & Milestones
 
-- [x] **Milestone 1**: 프로젝트 초기 기획 (기술 스택 확정, 환경 세팅, ERD/DB 설계)
+- [ ] **Milestone 1**: 프로젝트 초기 기획 (기술 스택 확정, 환경 세팅, ERD/DB 설계)
 - [ ] **Milestone 2**: 회원가입 / 로그인 (인증 및 인가) 구현
 - [ ] **Milestone 3**: 게시글 CRUD 기능 구현
 - [ ] **Milestone 4**: 그룹별 실시간 채팅방 생성 및 연동
