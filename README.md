@@ -1,10 +1,19 @@
 # 🍽️ TableMate: 캠퍼스 점심 소셜 매칭 플랫폼
 
-> **"오늘 점심, 누구랑 먹지?"** > TableMate는 음식 취향과 식사 시간을 기반으로 캠퍼스 내 새로운 인연을 연결해주는 식사 매칭 서비스입니다.
+> **"오늘 점심, 누구랑 먹지?"** > **TableMate**는 음식 취향과 식사 시간을 기반으로 캠퍼스 내 새로운 인연을 연결해주는 **소셜 매칭 / 캠퍼스 커뮤니티 서비스**입니다.
 
 ---
 
 ## 🎯 1. Project Vision
+
+### **Service Information**
+* **Service Name**: TableMate
+* **Category**: 소셜 매칭 플랫폼 / 캠퍼스 커뮤니티 서비스
+
+### **Target Users**
+* **혼밥 탈출**: 캠퍼스에서 점심을 혼자 먹는 경우가 많은 대학생
+* **취향 공유**: 비슷한 음식 취향을 가진 새로운 사람을 만나고 싶은 학생
+* **사회적 교류**: 식사 시간에 가벼운 사회적 교류를 원하는 학생
 
 ### **Problem or Need**
 대학생들은 종종 다음과 같은 상황을 경험합니다.
@@ -52,7 +61,7 @@
 
 | Category | Technology |
 | :--- | :--- |
-| **Backend** | Java, Spring Boot, Spring Data JPA |
+| **Backend** | Java 17, Spring Boot 3.x, Spring Data JPA |
 | **Database** | PostgreSQL, Redis |
 | **Real-time** | WebSocket (STOMP) |
 | **DevOps** | Docker, AWS |
@@ -62,9 +71,9 @@
 
 ## 🗺️ 5. Roadmap & Milestones
 
-- [x] **Milestone 1**: 초기 기획 (기술 스택 확정, 환경 세팅, ERD/DB 설계)
+- [x] **Milestone 1**: 프로젝트 초기 기획 (기술 스택 확정, 환경 세팅, ERD/DB 설계)
 - [ ] **Milestone 2**: 회원가입 / 로그인 (인증 및 인가) 구현
-- [ ] **Milestone 3**: 게시글 CRUD 기능 및 필터링 구현
+- [ ] **Milestone 3**: 게시글 CRUD 기능 구현
 - [ ] **Milestone 4**: 그룹별 실시간 채팅방 생성 및 연동
 
 ---
