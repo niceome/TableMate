@@ -1,1 +1,69 @@
-🍽️ TableMate: 캠퍼스 점심 소셜 매칭 플랫폼"오늘 점심, 누구랑 먹지?" > TableMate는 음식 취향과 식사 시간을 기반으로 캠퍼스 내 새로운 인연을 연결해주는 식사 매칭 서비스입니다.🎯 Project VisionThe Problem혼자 밥 먹기 어색하거나 특정 메뉴(2인 이상)를 먹고 싶을 때에브리타임 같은 익명 커뮤니티보다 더 구체적인 식사 약속이 필요할 때캠퍼스 내에서 새로운 친구를 사귀고 싶지만 기회가 부족할 때The SolutionMeal-based Matching: 단순 대화가 아닌 '식사'라는 구체적인 목적 중심의 매칭Taste-Centric: 선호 음식 데이터를 활용한 취향 저격 게시글 필터링Real-time Interaction: 웹소켓 기반의 실시간 소통으로 빠른 약속 확정🛠️ Tech StackCategoryTechnologyBackendJava, Spring Boot, Spring Data JPADatabasePostgreSQL, RedisReal-timeWebSocket (STOMP)DevOpsDocker, AWSToolsIntelliJ, Postman, Git✨ Major Features👤 User Management회원가입/로그인: 캠퍼스 사용자 인증 및 인가취향 프로필: 선호 음식 및 식사 스타일 설정📝 Meal Matching (CRUD)모집 게시글: 메뉴, 시간, 장소, 모집 인원 설정 및 작성필터링: 내 음식 취향에 맞는 게시글만 골라보기참여 관리: 신청 및 승인 프로세스를 통한 그룹 구성💬 Communication실시간 채팅: 매칭된 그룹별 독립적인 채팅방 생성알림: 참여 신청 및 수락 여부 실시간 확인🗺️ Roadmap & Milestones[x] Phase 1: 초기 기획, 개발 환경 세팅, ERD 및 API 설계[ ] Phase 2: 사용자 인증/인가 및 기본 프로필 기능 구현[ ] Phase 3: 게시글 CRUD 및 취향 기반 필터링 시스템 구축[ ] Phase 4: 웹소켓 기반 실시간 채팅방 및 그룹 관리 구현[ ] Phase 5: 최종 QA 및 프로토타입 시연 준비👥 StakeholdersDeveloper: 소프트웨어공학론 2팀 (시스템 설계 및 구현)Evaluator: 담당 교수님 (설계 및 기능 구현 평가)User: 새로운 식사 파트너를 찾는 캠퍼스 대학생🔗 RepositoryGitHub: niceome/software_team_2
+# 🍽️ TableMate: 캠퍼스 점심 소셜 매칭 플랫폼
+
+> **"오늘 점심, 누구랑 먹지?"** > TableMate는 음식 취향과 식사 시간을 기반으로 캠퍼스 내 새로운 인연을 연결해주는 식사 매칭 서비스입니다.
+
+---
+
+## 🎯 Project Vision
+
+### **The Problem**
+* **혼밥의 어려움**: 혼자 밥 먹기 어색하거나 특정 메뉴(2인 이상)를 먹고 싶을 때
+* **불명확한 약속**: 에브리타임 같은 익명 커뮤니티보다 더 구체적인 식사 약속이 필요할 때
+* **교류 부족**: 캠퍼스 내에서 새로운 친구를 사귀고 싶지만 기회가 부족할 때
+
+### **The Solution**
+* **Meal-based Matching**: 단순 대화가 아닌 '식사'라는 구체적인 목적 중심의 매칭
+* **Taste-Centric**: 선호 음식 데이터를 활용한 취향 저격 게시글 필터링
+* **Real-time Interaction**: 웹소켓 기반의 실시간 소통으로 빠른 약속 확정
+
+---
+
+## 🛠️ Tech Stack
+
+| Category | Technology |
+| :--- | :--- |
+| **Backend** | Java, Spring Boot, Spring Data JPA |
+| **Database** | PostgreSQL, Redis |
+| **Real-time** | WebSocket (STOMP) |
+| **DevOps** | Docker, AWS |
+| **Tools** | IntelliJ, Postman, Git |
+
+---
+
+## ✨ Major Features
+
+### 👤 User Management
+* **회원가입/로그인**: 캠퍼스 사용자 인증 및 인가
+* **취향 프로필**: 선호 음식 및 식사 스타일 설정
+
+### 📝 Meal Matching (CRUD)
+* **모집 게시글**: 메뉴, 시간, 장소, 모집 인원 설정 및 작성
+* **필터링**: 내 음식 취향에 맞는 게시글만 골라보기
+* **참여 관리**: 신청 및 승인 프로세스를 통한 그룹 구성
+
+### 💬 Communication
+* **실시간 채팅**: 매칭된 그룹별 독립적인 채팅방 생성
+* **알림**: 참여 신청 및 수락 여부 실시간 확인
+
+---
+
+## 🗺️ Roadmap & Milestones
+
+- [x] **Phase 1**: 초기 기획, 개발 환경 세팅, ERD 및 API 설계
+- [ ] **Phase 2**: 사용자 인증/인가 및 기본 프로필 기능 구현
+- [ ] **Phase 3**: 게시글 CRUD 및 취향 기반 필터링 시스템 구축
+- [ ] **Phase 4**: 웹소켓 기반 실시간 채팅방 및 그룹 관리 구현
+- [ ] **Phase 5**: 최종 QA 및 프로토타입 시연 준비
+
+---
+
+## 👥 Stakeholders
+
+* **Developer**: 소프트웨어공학론 2팀 (시스템 설계 및 구현)
+* **Evaluator**: 담당 교수님 (설계 및 기능 구현 평가)
+* **User**: 새로운 식사 파트너를 찾는 캠퍼스 대학생
+
+---
+
+## 🔗 Repository
+* **GitHub**: [niceome/software_team_2](https://github.com/niceome/software_team_2.git)
