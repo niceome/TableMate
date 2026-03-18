@@ -23,9 +23,9 @@
 | Category | Technology |
 | :--- | :--- |
 | **Backend** | Java, Spring Boot, Spring Data JPA |
-| **Database** | PostgreSQL, Redis |
+| **Database** | PostgreSQL |
 | **Real-time** | WebSocket (STOMP) |
-| **DevOps** | Docker, AWS |
+| **DevOps** | Docker |
 | **Tools** | IntelliJ, Postman, Git |
 
 ---
