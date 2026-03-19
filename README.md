@@ -79,4 +79,4 @@
 ---
 
 ## 🔗 6. Github Address
-* **Repository**: [https://github.com/niceome/software_team_2.git](https://github.com/niceome/software_team_2.git)
+* **Repository**: [https://github.com/niceome/TableMate.git](https://github.com/niceome/TableMate.git)
