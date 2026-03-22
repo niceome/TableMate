@@ -61,7 +61,7 @@
 
 | Category | Technology |
 | :--- | :--- |
-| **Backend** | Java 25, Spring Boot 3.4.3, Spring Data JPA |
+| **Backend** | Java 25, Spring Boot 4.0.4, Spring Data JPA |
 | **Database** | PostgreSQL |
 | **Real-time** | WebSocket (STOMP) |
 | **DevOps** | Docker |
