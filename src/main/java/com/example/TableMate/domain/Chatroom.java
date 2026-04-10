@@ -2,17 +2,14 @@ package com.example.TableMate.domain;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.OffsetDateTime;
 
 @Entity
 @Getter
 @Table(name = "chatroom")
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 public class Chatroom {
@@ -24,4 +21,8 @@ public class Chatroom {
 
     @Column(nullable = false, name = "created_at")
     private OffsetDateTime createdAt;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id")
+    private Post post;
 }
