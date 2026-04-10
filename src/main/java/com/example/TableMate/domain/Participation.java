@@ -22,8 +22,9 @@ public class Participation {
     @Column(nullable = false, name = "participation_id")
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, name = "participation_role")
-    private String role;
+    private Role role;
 
     @Column(nullable = false, name = "participation_status")
     private String status;
