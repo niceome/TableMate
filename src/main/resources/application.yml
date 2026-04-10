@@ -3,6 +3,10 @@ spring:
     name: TableMate
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/tablemate
-    username: tablemate
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: ss
     password: 1234
+
+  jpa:
+    hibernate:
+      ddl-auto: update
