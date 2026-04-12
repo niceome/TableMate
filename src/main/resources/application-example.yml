@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/tablemate
+    username: postgres
+    password: your_password
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
