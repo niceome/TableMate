@@ -3,11 +3,12 @@ package com.example.TableMate.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 
 @Entity
+@Table(name = "posts")
 @Getter
-@Table(name = "post")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
@@ -15,28 +16,33 @@ public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, name = "post_id")
+    @Column(name = "post_id")
     private Long id;
 
-    @Column(nullable = false, name = "created_at")
-    private OffsetDateTime createdAt;
-
-    @Column(nullable = false, name = "post_title")
+    @Column(name = "post_title")
     private String title;
 
-    @Column(nullable = false, name = "post_category")
+    @Column(name = "post_category")
     private String category;
 
-    @Column(nullable = false, name = "post_due")
-    private OffsetDateTime due;
+    @Column(name = "post_due")
+    private LocalDateTime dueTime;
 
-    @Column(nullable = false, name = "post_party")
+    @Column(name = "post_party")
     private Long party;
 
-    @Column(nullable = false, name = "post_content")
+    @Column(name = "post_content", columnDefinition = "TEXT")
     private String content;
 
+    @Column(name = "post_time")
+    private OffsetDateTime postTime;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", nullable = false)
-    private Member member;
+    @JoinColumn(name = "member_id")
+    private Member writer;
+
+    @PrePersist
+    public void prePersist() {
+        this.postTime = OffsetDateTime.now();
+    }
 }

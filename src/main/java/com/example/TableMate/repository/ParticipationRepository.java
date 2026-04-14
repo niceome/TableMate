@@ -1,4 +1,7 @@
 package com.example.TableMate.repository;
 
-public class ParticipationRepository {
+import com.example.TableMate.domain.Participation;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ParticipationRepository extends JpaRepository<Participation, Long> {
 }

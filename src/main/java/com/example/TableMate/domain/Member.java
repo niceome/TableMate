@@ -20,10 +20,10 @@ public class Member {
     private Long id;
 
     @Column(nullable = false, name = "member_email")
-    private String memberEmail;
+    private String email;
 
     @Column(nullable = false, name = "member_password")
-    private String memberPassword;
+    private String password;
 
     @Column(nullable = false, name = "member_nickname")
     private String nickname;
@@ -34,4 +34,9 @@ public class Member {
 
     @Column(nullable = false, name = "created_at")
     private OffsetDateTime createdAt;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = OffsetDateTime.now();
+    }
 }
