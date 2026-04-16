@@ -29,7 +29,7 @@ public class Post {
     private LocalDateTime dueTime;
 
     @Column(name = "post_party")
-    private Long party;
+    private Long partySize;
 
     @Column(name = "post_content", columnDefinition = "TEXT")
     private String content;
