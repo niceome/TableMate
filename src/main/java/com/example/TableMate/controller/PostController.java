@@ -17,7 +17,7 @@ public class PostController {
 
     private final PostService postService;
 
-    @PostMapping
+    @PostMapping("/create")
     public Long create(@RequestBody PostCreateRequest request) {
         return postService.create(request);
     }
