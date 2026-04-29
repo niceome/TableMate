@@ -1,4 +1,4 @@
 package com.example.TableMate.controller;
 
-public class MemeberController {
+public class ChatRoomController {
 }
