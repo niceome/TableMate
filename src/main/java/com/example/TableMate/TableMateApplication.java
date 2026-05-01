@@ -8,11 +8,6 @@ public class TableMateApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(TableMateApplication.class, args);
-
-
-
 	}
-
-
 
 }
