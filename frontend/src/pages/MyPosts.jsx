@@ -51,11 +51,20 @@ function MyPosts() {
   return (
     <div style={{ minHeight: "100svh", backgroundColor: "#fff", paddingBottom: 100 }}>
       {/* 헤더 */}
-      <div style={{ padding: "16px", borderBottom: "1px solid #f0f0f0" }}>
-        <h1 style={{ fontSize: 22, fontWeight: 700, color: "#111", margin: 0 }}>내 게시글</h1>
-        <p style={{ fontSize: 13, color: "#aaa", marginTop: 4 }}>
-          총 {myPosts.length}개의 게시글
-        </p>
+      <div style={{
+        display: "flex", alignItems: "center", gap: 12,
+        padding: "16px",
+        borderBottom: "1px solid #f0f0f0",
+      }}>
+        <button onClick={() => navigate(-1)} style={{ display: "flex", padding: 4, color: "#111" }}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+            <path d="M19 12H5"/><polyline points="12 19 5 12 12 5"/>
+          </svg>
+        </button>
+        <div>
+          <h1 style={{ fontSize: 18, fontWeight: 700, color: "#111", margin: 0 }}>내 게시글</h1>
+          <p style={{ fontSize: 12, color: "#aaa", margin: 0 }}>총 {myPosts.length}개</p>
+        </div>
       </div>
 
       <div style={{ padding: "12px 16px" }}>

@@ -42,10 +42,16 @@ function ChatList() {
     <div style={{ minHeight: "100svh", backgroundColor: "#fff", paddingBottom: 100 }}>
       {/* 헤더 */}
       <div style={{
+        display: "flex", alignItems: "center", gap: 12,
         padding: "16px",
         borderBottom: "1px solid #f0f0f0",
       }}>
-        <h1 style={{ fontSize: 22, fontWeight: 700, color: "#111", margin: 0 }}>내 채팅방</h1>
+        <button onClick={() => navigate(-1)} style={{ display: "flex", padding: 4, color: "#111" }}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+            <path d="M19 12H5"/><polyline points="12 19 5 12 12 5"/>
+          </svg>
+        </button>
+        <h1 style={{ fontSize: 18, fontWeight: 700, color: "#111", margin: 0 }}>내 채팅방</h1>
       </div>
 
       <div style={{ padding: "12px 16px" }}>
