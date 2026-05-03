@@ -21,6 +21,9 @@ public enum ErrorCode {
 
     APPLICATION_NOT_FOUND(HttpStatus.NOT_FOUND, "신청을 찾을 수 없습니다."),
 
+    //사용자 조회 실패 시
+    USER_NOT_FOUND(HttpStatus.NOT_FOUND, "사용자를 찾을 수 없습니다."),
+
     CHAT_ROOM_NOT_FOUND(HttpStatus.NOT_FOUND, "채팅방을 찾을 수 없습니다."),
     NOT_CHAT_ROOM_MEMBER(HttpStatus.FORBIDDEN, "채팅방 참여 권한이 없습니다.");
 
