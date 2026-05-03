@@ -1,10 +1,10 @@
-package com.example.tablemate.repository;
+package com.example.TableMate.repository;
 
-import com.example.tablemate.entity.Member;
+import com.example.TableMate.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
-    Optional<Member> findByEmail(String email);
+    Optional<Member> findByMemberEmail(String memberEmail);
 }
