@@ -256,21 +256,6 @@ function Home() {
         ))
       )}
 
-      <button
-        onClick={() => navigate("/create")}
-        style={{
-          position: "fixed", bottom: 24, right: "calc(50% - 215px + 16px)",
-          width: 52, height: 52,
-          borderRadius: "50%",
-          backgroundColor: "#111",
-          color: "#fff",
-          fontSize: 26, lineHeight: 1,
-          display: "flex", alignItems: "center", justifyContent: "center",
-          boxShadow: "0 4px 14px rgba(0,0,0,0.25)",
-        }}
-      >
-        +
-      </button>
     </div>
   );
 }
