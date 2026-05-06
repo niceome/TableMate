@@ -49,23 +49,8 @@ public class ChatController {
         return ApiResponse.success(chatService.getChatMessages(member, roomId));
     }
 
-    /**
-     * WebSocket STOMP 메시지 전송
-     * - 구독: /sub/chat/{roomId}
-     * - 발행: /pub/chat/{roomId}
-     * - 인증: STOMP CONNECT 헤더에 Authorization: Bearer {token} 포함
-     */
-    @Operation(
-            summary = "[STOMP] 채팅 메시지 전송",
-            description = """
-                    WebSocket STOMP 프로토콜을 사용합니다. Swag   ger UI에서는 테스트 불가합니다.
-
-                    **연결:** `ws://{host}/ws` (STOMP)
-                    **CONNECT 헤더:** `Authorization: Bearer {JWT_TOKEN}`
-                    **발행 경로:** `/pub/chat/{roomId}`
-                    **구독 경로:** `/sub/chat/{roomId}`
-                    """
-    )
+    
+    
     @MessageMapping("/chat/{roomId}")
     public void sendMessage(
             @DestinationVariable Long roomId,
