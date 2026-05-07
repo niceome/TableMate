@@ -24,7 +24,6 @@ import java.security.Principal;
 import java.util.List;
 
 @Tag(name = "Chat", description = "채팅 API (REST + WebSocket STOMP)")
-@SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequiredArgsConstructor
 public class ChatController {

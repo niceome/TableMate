@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Tag(name = "Application", description = "밥 모임 참가 신청 API")
-@SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("/api/posts")
 @RequiredArgsConstructor

@@ -31,8 +31,7 @@ dependencies {
 
 
 	// Swagger 의존성(API 명세서)
-	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
-
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.3'
 	// 롬복 의존성
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'

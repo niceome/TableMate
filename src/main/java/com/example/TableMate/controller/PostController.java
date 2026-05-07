@@ -22,7 +22,6 @@ import java.time.LocalTime;
 import java.util.List;
 
 @Tag(name = "Post", description = "밥 모임 게시글 API")
-@SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("/api/posts")
 @RequiredArgsConstructor
