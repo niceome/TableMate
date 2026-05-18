@@ -29,9 +29,8 @@ public class PostService {
     private final ChatRoomRepository chatRoomRepository;
     private final ChatRoomMemberRepository chatRoomMemberRepository;
     private final ApplicationRepository applicationRepository;
+    private final ChatService chatService;
 
-
-    // 게시물 생성
     @Transactional
     public PostResponse createPost(Member author, CreatePostRequest request) {
         Post post = Post.builder()
@@ -53,11 +52,13 @@ public class PostService {
                 .member(author)
                 .build());
 
+        chatService.sendBotMessage(chatRoom,
+                "👋 채팅방이 개설되었습니다! 참여자가 모이면 서로 자기소개를 나눠보세요. MBTI도 함께 공유해보세요 😊");
+
         post.setChatRoom(chatRoom);
         return new PostResponse(post, 1);
     }
 
-    // 게시글 목록 조회
     @Transactional(readOnly = true)
     public List<PostResponse> getPosts(Member member, Cafeteria cafeteria, FoodType foodType, LocalTime meetingTime) {
         Set<FoodType> preferences = member.getFoodPreferences();
@@ -72,14 +73,12 @@ public class PostService {
                 .collect(Collectors.toList());
     }
 
-    // 게시물 단건 조회
     @Transactional(readOnly = true)
     public PostResponse getPost(Long postId) {
         Post post = findById(postId);
         return new PostResponse(post, getAcceptedCount(post));
     }
 
-    // 게시물 수정
     @Transactional
     public PostResponse updatePost(Member member, Long postId, UpdatePostRequest request) {
         Post post = findById(postId);
@@ -92,7 +91,6 @@ public class PostService {
         return new PostResponse(post, getAcceptedCount(post));
     }
 
-    // 게시글 삭제
     @Transactional
     public void deletePost(Member member, Long postId) {
         Post post = findById(postId);
@@ -105,7 +103,6 @@ public class PostService {
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
     }
 
-    // 게시글 작성자 맞는지 확인하고 아니면 예외
     private void checkAuthor(Post post, Member member) {
         if (!post.getAuthor().getId().equals(member.getId())) {
             throw new CustomException(ErrorCode.UNAUTHORIZED_ACCESS);

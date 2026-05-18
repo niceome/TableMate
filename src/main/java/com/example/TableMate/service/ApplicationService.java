@@ -24,9 +24,8 @@ public class ApplicationService {
     private final ChatRoomRepository chatRoomRepository;
     private final ChatRoomMemberRepository chatRoomMemberRepository;
     private final PostService postService;
+    private final ChatService chatService;
 
-
-    // 게시글 참여 신청
     @Transactional
     public void apply(Member applicant, Long postId) {
         Post post = postService.findById(postId);
@@ -48,7 +47,6 @@ public class ApplicationService {
                 .build());
     }
 
-    // 게시글 참여 신청자 목록
     @Transactional(readOnly = true)
     public List<ApplicantResponse> getApplicants(Member author, Long postId) {
         Post post = postService.findById(postId);
@@ -58,7 +56,6 @@ public class ApplicationService {
                 .collect(Collectors.toList());
     }
 
-    // 참여 승인
     @Transactional
     public void accept(Member author, Long postId, Long userId) {
         Post post = postService.findById(postId);
@@ -83,15 +80,18 @@ public class ApplicationService {
                     .chatRoom(chatRoom)
                     .member(application.getApplicant())
                     .build());
+            chatService.sendBotMessage(chatRoom, String.format(
+                    "👋 %s님이 입장하셨습니다! 간단하게 자기소개 부탁드려요. MBTI도 다른 분들에게 소개해주세요 😊",
+                    application.getApplicant().getName()));
         }
 
+        // Close post if now full (author + accepted == maxParticipants)
         long acceptedCount = applicationRepository.countByPostAndStatus(post, ApplicationStatus.ACCEPTED);
         if (1 + acceptedCount >= post.getMaxParticipants()) {
             post.setStatus(PostStatus.CLOSED);
         }
     }
 
-    // 참여 거부
     @Transactional
     public void reject(Member author, Long postId, Long userId) {
         Post post = postService.findById(postId);
@@ -111,4 +111,3 @@ public class ApplicationService {
         }
     }
 }
-

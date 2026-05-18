@@ -23,8 +23,12 @@ public class ChatMessage {
     private ChatRoom chatRoom;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sender_id", nullable = false)
+    @JoinColumn(name = "sender_id", nullable = true)
     private Member sender;
+
+    @Column(name = "is_bot", nullable = false, columnDefinition = "boolean default false")
+    @Builder.Default
+    private boolean isBot = false;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
