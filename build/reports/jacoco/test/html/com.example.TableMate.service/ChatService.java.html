@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ko"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ChatService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">TableMate</a> &gt; <a href="index.source.html" class="el_package">com.example.TableMate.service</a> &gt; <span class="el_source">ChatService.java</span></div><h1>ChatService.java</h1><pre class="source lang-java linenums">package com.example.TableMate.service;
+
+import com.example.TableMate.common.exception.CustomException;
+import com.example.TableMate.common.exception.ErrorCode;
+import com.example.TableMate.domain.entity.ChatMessage;
+import com.example.TableMate.domain.entity.ChatRoom;
+import com.example.TableMate.domain.entity.Member;
+import com.example.TableMate.domain.repository.ChatMessageRepository;
+import com.example.TableMate.domain.repository.ChatRoomMemberRepository;
+import com.example.TableMate.domain.repository.ChatRoomRepository;
+import com.example.TableMate.dto.response.ChatMessageResponse;
+import com.example.TableMate.dto.response.ChatRoomResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+public class ChatService {
+
+    private final ChatRoomRepository chatRoomRepository;
+    private final ChatMessageRepository chatMessageRepository;
+    private final ChatRoomMemberRepository chatRoomMemberRepository;
+    private final SimpMessagingTemplate messagingTemplate;
+
+    @Transactional(readOnly = true)
+    public List&lt;ChatRoomResponse&gt; getMyChatRooms(Member member) {
+<span class="fc" id="L32">        return chatRoomRepository.findAllByMember(member).stream()</span>
+<span class="fc" id="L33">                .map(ChatRoomResponse::new)</span>
+<span class="fc" id="L34">                .collect(Collectors.toList());</span>
+    }
+
+    @Transactional(readOnly = true)
+    public List&lt;ChatMessageResponse&gt; getChatMessages(Member member, Long roomId) {
+<span class="fc" id="L39">        ChatRoom chatRoom = findChatRoom(roomId);</span>
+<span class="fc" id="L40">        validateMembership(chatRoom, member);</span>
+<span class="fc" id="L41">        return chatMessageRepository.findAllByChatRoomOrderBySentAtAsc(chatRoom).stream()</span>
+<span class="fc" id="L42">                .map(ChatMessageResponse::new)</span>
+<span class="fc" id="L43">                .collect(Collectors.toList());</span>
+    }
+
+    @Transactional
+    public ChatMessageResponse sendMessage(Member sender, Long roomId, String content) {
+<span class="fc" id="L48">        ChatRoom chatRoom = findChatRoom(roomId);</span>
+<span class="fc" id="L49">        validateMembership(chatRoom, sender);</span>
+<span class="fc" id="L50">        ChatMessage message = ChatMessage.builder()</span>
+<span class="fc" id="L51">                .chatRoom(chatRoom)</span>
+<span class="fc" id="L52">                .sender(sender)</span>
+<span class="fc" id="L53">                .content(content)</span>
+<span class="fc" id="L54">                .build();</span>
+<span class="fc" id="L55">        chatMessageRepository.save(message);</span>
+<span class="fc" id="L56">        return new ChatMessageResponse(message);</span>
+    }
+
+    @Transactional
+    public void sendBotMessage(ChatRoom chatRoom, String content) {
+<span class="fc" id="L61">        ChatMessage message = ChatMessage.builder()</span>
+<span class="fc" id="L62">                .chatRoom(chatRoom)</span>
+<span class="fc" id="L63">                .isBot(true)</span>
+<span class="fc" id="L64">                .content(content)</span>
+<span class="fc" id="L65">                .build();</span>
+<span class="fc" id="L66">        chatMessageRepository.save(message);</span>
+<span class="fc" id="L67">        messagingTemplate.convertAndSend(&quot;/sub/chat/&quot; + chatRoom.getId(), new ChatMessageResponse(message));</span>
+<span class="fc" id="L68">    }</span>
+
+    private ChatRoom findChatRoom(Long roomId) {
+<span class="fc" id="L71">        return chatRoomRepository.findById(roomId)</span>
+<span class="fc" id="L72">                .orElseThrow(() -&gt; new CustomException(ErrorCode.CHAT_ROOM_NOT_FOUND));</span>
+    }
+
+    private void validateMembership(ChatRoom chatRoom, Member member) {
+<span class="fc bfc" id="L76" title="All 2 branches covered.">        if (!chatRoomMemberRepository.existsByChatRoomAndMember(chatRoom, member)) {</span>
+<span class="fc" id="L77">            throw new CustomException(ErrorCode.NOT_CHAT_ROOM_MEMBER);</span>
+        }
+<span class="fc" id="L79">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

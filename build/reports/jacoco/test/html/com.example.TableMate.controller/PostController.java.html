@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ko"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PostController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">TableMate</a> &gt; <a href="index.source.html" class="el_package">com.example.TableMate.controller</a> &gt; <span class="el_source">PostController.java</span></div><h1>PostController.java</h1><pre class="source lang-java linenums">package com.example.TableMate.controller;
+
+import com.example.TableMate.common.response.ApiResponse;
+import com.example.TableMate.domain.entity.Member;
+import com.example.TableMate.domain.enums.Cafeteria;
+import com.example.TableMate.domain.enums.FoodType;
+import com.example.TableMate.dto.request.CreatePostRequest;
+import com.example.TableMate.dto.request.UpdatePostRequest;
+import com.example.TableMate.dto.response.PostResponse;
+import com.example.TableMate.service.MemberService;
+import com.example.TableMate.service.PostService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalTime;
+import java.util.List;
+
+@Tag(name = &quot;Post&quot;, description = &quot;밥 모임 게시글 API&quot;)
+@RestController
+@RequestMapping(&quot;/api/posts&quot;)
+@RequiredArgsConstructor
+public class PostController {
+
+    private final PostService postService;
+    private final MemberService memberService;
+
+    @Operation(summary = &quot;게시글 목록 조회&quot;, description = &quot;식당, 음식 종류, 모임 시간으로 필터링하여 게시글 목록을 조회합니다.&quot;)
+    @GetMapping
+    public ApiResponse&lt;List&lt;PostResponse&gt;&gt; getPosts(
+            @AuthenticationPrincipal String username,
+            @RequestParam(required = false) Cafeteria cafeteria,
+            @RequestParam(required = false) FoodType foodType,
+            @RequestParam(required = false) String time) {
+<span class="nc" id="L40">        Member member = memberService.findByUsername(username);</span>
+<span class="nc bnc" id="L41" title="All 2 branches missed.">        LocalTime meetingTime = time != null ? LocalTime.parse(time) : null;</span>
+<span class="nc" id="L42">        return ApiResponse.success(postService.getPosts(member, cafeteria, foodType, meetingTime));</span>
+    }
+
+    @Operation(summary = &quot;게시글 단건 조회&quot;, description = &quot;게시글 ID로 특정 게시글의 상세 정보를 조회합니다.&quot;)
+    @GetMapping(&quot;/{postId}&quot;)
+    public ApiResponse&lt;PostResponse&gt; getPost(@PathVariable Long postId) {
+<span class="nc" id="L48">        return ApiResponse.success(postService.getPost(postId));</span>
+    }
+
+    @Operation(summary = &quot;게시글 작성&quot;, description = &quot;새로운 밥 모임 게시글을 작성합니다.&quot;)
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public ApiResponse&lt;PostResponse&gt; createPost(
+            @AuthenticationPrincipal String username,
+            @Valid @RequestBody CreatePostRequest request) {
+<span class="nc" id="L57">        Member member = memberService.findByUsername(username);</span>
+<span class="nc" id="L58">        return ApiResponse.success(postService.createPost(member, request), &quot;게시글 작성 성공&quot;);</span>
+    }
+
+    @Operation(summary = &quot;게시글 수정&quot;, description = &quot;본인이 작성한 게시글의 내용을 수정합니다.&quot;)
+    @PutMapping(&quot;/{postId}&quot;)
+    public ApiResponse&lt;PostResponse&gt; updatePost(
+            @AuthenticationPrincipal String username,
+            @PathVariable Long postId,
+            @RequestBody UpdatePostRequest request) {
+<span class="nc" id="L67">        Member member = memberService.findByUsername(username);</span>
+<span class="nc" id="L68">        return ApiResponse.success(postService.updatePost(member, postId, request));</span>
+    }
+
+    @Operation(summary = &quot;게시글 삭제&quot;, description = &quot;본인이 작성한 게시글을 삭제합니다.&quot;)
+    @DeleteMapping(&quot;/{postId}&quot;)
+    public ApiResponse&lt;Void&gt; deletePost(
+            @AuthenticationPrincipal String username,
+            @PathVariable Long postId) {
+<span class="nc" id="L76">        Member member = memberService.findByUsername(username);</span>
+<span class="nc" id="L77">        postService.deletePost(member, postId);</span>
+<span class="nc" id="L78">        return ApiResponse.success(null, &quot;게시글 삭제 성공&quot;);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

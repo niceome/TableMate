@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ko"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JwtTokenProvider.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">TableMate</a> &gt; <a href="index.source.html" class="el_package">com.example.TableMate.common.auth</a> &gt; <span class="el_source">JwtTokenProvider.java</span></div><h1>JwtTokenProvider.java</h1><pre class="source lang-java linenums">package com.example.TableMate.common.auth;
+
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.stereotype.Component;
+
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
+import java.util.Collections;
+import java.util.Date;
+
+<span class="nc" id="L17">@Slf4j</span>
+@Component
+public class JwtTokenProvider {
+
+    private final SecretKey secretKey;
+    private final long expiration;
+
+    public JwtTokenProvider(
+            @Value(&quot;${jwt.secret}&quot;) String secret,
+<span class="nc" id="L26">            @Value(&quot;${jwt.expiration}&quot;) long expiration) {</span>
+<span class="nc" id="L27">        this.secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));</span>
+<span class="nc" id="L28">        this.expiration = expiration;</span>
+<span class="nc" id="L29">    }</span>
+
+    public String createToken(String username, Long userId) {
+<span class="nc" id="L32">        Date now = new Date();</span>
+<span class="nc" id="L33">        Date expireDate = new Date(now.getTime() + expiration);</span>
+
+<span class="nc" id="L35">        return Jwts.builder()</span>
+<span class="nc" id="L36">                .setSubject(username)</span>
+<span class="nc" id="L37">                .claim(&quot;userId&quot;, userId)</span>
+<span class="nc" id="L38">                .setIssuedAt(now)</span>
+<span class="nc" id="L39">                .setExpiration(expireDate)</span>
+<span class="nc" id="L40">                .signWith(secretKey, SignatureAlgorithm.HS256)</span>
+<span class="nc" id="L41">                .compact();</span>
+    }
+
+    public Authentication getAuthentication(String token) {
+<span class="nc" id="L45">        String username = getClaims(token).getSubject();</span>
+<span class="nc" id="L46">        return new UsernamePasswordAuthenticationToken(</span>
+                username,
+                null,
+<span class="nc" id="L49">                Collections.singletonList(new SimpleGrantedAuthority(&quot;ROLE_USER&quot;))</span>
+        );
+    }
+
+    public boolean validateToken(String token) {
+        try {
+<span class="nc" id="L55">            getClaims(token);</span>
+<span class="nc" id="L56">            return true;</span>
+<span class="nc" id="L57">        } catch (JwtException | IllegalArgumentException e) {</span>
+<span class="nc" id="L58">            log.warn(&quot;Invalid JWT token: {}&quot;, e.getMessage());</span>
+<span class="nc" id="L59">            return false;</span>
+        }
+    }
+
+    private Claims getClaims(String token) {
+<span class="nc" id="L64">        return Jwts.parserBuilder()</span>
+<span class="nc" id="L65">                .setSigningKey(secretKey)</span>
+<span class="nc" id="L66">                .build()</span>
+<span class="nc" id="L67">                .parseClaimsJws(token)</span>
+<span class="nc" id="L68">                .getBody();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

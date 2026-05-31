@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ko"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PostResponse.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">TableMate</a> &gt; <a href="index.source.html" class="el_package">com.example.TableMate.dto.response</a> &gt; <span class="el_source">PostResponse.java</span></div><h1>PostResponse.java</h1><pre class="source lang-java linenums">package com.example.TableMate.dto.response;
+
+import com.example.TableMate.domain.entity.Post;
+import com.example.TableMate.domain.enums.Cafeteria;
+import com.example.TableMate.domain.enums.FoodType;
+import com.example.TableMate.domain.enums.PostStatus;
+import lombok.Getter;
+
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
+@Getter
+public class PostResponse {
+
+    private final Long id;
+    private final Long authorId;
+    private final String authorName;
+    private final Cafeteria cafeteria;
+    private final FoodType foodType;
+    private final LocalTime meetingTime;
+    private final int maxParticipants;
+    private final int currentParticipants;
+    private final String content;
+    private final PostStatus status;
+    private final LocalDateTime createdAt;
+
+<span class="nc" id="L27">    public PostResponse(Post post, int currentParticipants) {</span>
+<span class="nc" id="L28">        this.id = post.getId();</span>
+<span class="nc" id="L29">        this.authorId = post.getAuthor().getId();</span>
+<span class="nc" id="L30">        this.authorName = post.getAuthor().getName();</span>
+<span class="nc" id="L31">        this.cafeteria = post.getCafeteria();</span>
+<span class="nc" id="L32">        this.foodType = post.getFoodType();</span>
+<span class="nc" id="L33">        this.meetingTime = post.getMeetingTime();</span>
+<span class="nc" id="L34">        this.maxParticipants = post.getMaxParticipants();</span>
+<span class="nc" id="L35">        this.currentParticipants = currentParticipants;</span>
+<span class="nc" id="L36">        this.content = post.getContent();</span>
+<span class="nc" id="L37">        this.status = post.getStatus();</span>
+<span class="nc" id="L38">        this.createdAt = post.getCreatedAt();</span>
+<span class="nc" id="L39">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>
