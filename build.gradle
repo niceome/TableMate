@@ -1,5 +1,6 @@
 plugins {
 	id 'java'
+	id 'jacoco'
 	id 'org.springframework.boot' version '4.0.4'
 	id 'io.spring.dependency-management' version '1.1.7'
 }
@@ -52,6 +53,19 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-validation-test'
 	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+	useJUnitPlatform() // JUnit 5 사용 설정
+	finalizedBy jacocoTestReport // test 작업이 끝나면 자동으로 리포트 생성
+}
+
+jacocoTestReport {
+	dependsOn test // 리포트 생성을 위해 test 작업이 선행되어야 함
+	reports {
+		html.required = true // 사람이 보기 편한 HTML 리포트 생성
+		xml.required = true
+	}
 }
 
 tasks.named('test') {

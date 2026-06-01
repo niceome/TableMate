@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ko"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PostService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">TableMate</a> &gt; <a href="index.source.html" class="el_package">com.example.TableMate.service</a> &gt; <span class="el_source">PostService.java</span></div><h1>PostService.java</h1><pre class="source lang-java linenums">package com.example.TableMate.service;
+
+import com.example.TableMate.common.exception.CustomException;
+import com.example.TableMate.common.exception.ErrorCode;
+import com.example.TableMate.domain.entity.*;
+import com.example.TableMate.domain.enums.*;
+import com.example.TableMate.domain.repository.ApplicationRepository;
+import com.example.TableMate.domain.repository.ChatRoomMemberRepository;
+import com.example.TableMate.domain.repository.ChatRoomRepository;
+import com.example.TableMate.domain.repository.PostRepository;
+import com.example.TableMate.dto.request.CreatePostRequest;
+import com.example.TableMate.dto.request.UpdatePostRequest;
+import com.example.TableMate.dto.response.PostResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalTime;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+public class PostService {
+
+    private final PostRepository postRepository;
+    private final ChatRoomRepository chatRoomRepository;
+    private final ChatRoomMemberRepository chatRoomMemberRepository;
+    private final ApplicationRepository applicationRepository;
+    private final ChatService chatService;
+
+    @Transactional
+    public PostResponse createPost(Member author, CreatePostRequest request) {
+<span class="nc" id="L36">        Post post = Post.builder()</span>
+<span class="nc" id="L37">                .author(author)</span>
+<span class="nc" id="L38">                .cafeteria(request.getCafeteria())</span>
+<span class="nc" id="L39">                .foodType(request.getFoodType())</span>
+<span class="nc" id="L40">                .meetingTime(request.getMeetingTime())</span>
+<span class="nc" id="L41">                .maxParticipants(request.getMaxParticipants())</span>
+<span class="nc" id="L42">                .content(request.getContent())</span>
+<span class="nc" id="L43">                .status(PostStatus.OPEN)</span>
+<span class="nc" id="L44">                .build();</span>
+<span class="nc" id="L45">        postRepository.save(post);</span>
+
+<span class="nc" id="L47">        ChatRoom chatRoom = ChatRoom.builder().post(post).build();</span>
+<span class="nc" id="L48">        chatRoomRepository.save(chatRoom);</span>
+
+<span class="nc" id="L50">        chatRoomMemberRepository.save(ChatRoomMember.builder()</span>
+<span class="nc" id="L51">                .chatRoom(chatRoom)</span>
+<span class="nc" id="L52">                .member(author)</span>
+<span class="nc" id="L53">                .build());</span>
+
+<span class="nc" id="L55">        chatService.sendBotMessage(chatRoom,</span>
+                &quot;👋 채팅방이 개설되었습니다! 참여자가 모이면 서로 자기소개를 나눠보세요. MBTI도 함께 공유해보세요 😊&quot;);
+
+<span class="nc" id="L58">        post.setChatRoom(chatRoom);</span>
+<span class="nc" id="L59">        return new PostResponse(post, 1);</span>
+    }
+
+    @Transactional(readOnly = true)
+    public List&lt;PostResponse&gt; getPosts(Member member, Cafeteria cafeteria, FoodType foodType, LocalTime meetingTime) {
+<span class="nc" id="L64">        Set&lt;FoodType&gt; preferences = member.getFoodPreferences();</span>
+<span class="nc" id="L65">        return postRepository.findAll().stream()</span>
+<span class="nc bnc" id="L66" title="All 4 branches missed.">                .filter(p -&gt; cafeteria == null || p.getCafeteria() == cafeteria)</span>
+<span class="nc bnc" id="L67" title="All 4 branches missed.">                .filter(p -&gt; foodType == null || p.getFoodType() == foodType)</span>
+<span class="nc bnc" id="L68" title="All 4 branches missed.">                .filter(p -&gt; meetingTime == null || p.getMeetingTime().equals(meetingTime))</span>
+<span class="nc" id="L69">                .sorted(Comparator</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">                        .comparingInt((Post p) -&gt; preferences.contains(p.getFoodType()) ? 0 : 1)</span>
+<span class="nc" id="L71">                        .thenComparing(Comparator.comparing(Post::getCreatedAt).reversed()))</span>
+<span class="nc" id="L72">                .map(p -&gt; new PostResponse(p, getAcceptedCount(p)))</span>
+<span class="nc" id="L73">                .collect(Collectors.toList());</span>
+    }
+
+    @Transactional(readOnly = true)
+    public PostResponse getPost(Long postId) {
+<span class="nc" id="L78">        Post post = findById(postId);</span>
+<span class="nc" id="L79">        return new PostResponse(post, getAcceptedCount(post));</span>
+    }
+
+    @Transactional
+    public PostResponse updatePost(Member member, Long postId, UpdatePostRequest request) {
+<span class="nc" id="L84">        Post post = findById(postId);</span>
+<span class="nc" id="L85">        checkAuthor(post, member);</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        if (request.getCafeteria() != null) post.setCafeteria(request.getCafeteria());</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        if (request.getFoodType() != null) post.setFoodType(request.getFoodType());</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        if (request.getMeetingTime() != null) post.setMeetingTime(request.getMeetingTime());</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">        if (request.getMaxParticipants() != null) post.setMaxParticipants(request.getMaxParticipants());</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">        if (request.getContent() != null) post.setContent(request.getContent());</span>
+<span class="nc" id="L91">        return new PostResponse(post, getAcceptedCount(post));</span>
+    }
+
+    @Transactional
+    public void deletePost(Member member, Long postId) {
+<span class="nc" id="L96">        Post post = findById(postId);</span>
+<span class="nc" id="L97">        checkAuthor(post, member);</span>
+<span class="nc" id="L98">        postRepository.delete(post);</span>
+<span class="nc" id="L99">    }</span>
+
+    public Post findById(Long postId) {
+<span class="nc" id="L102">        return postRepository.findById(postId)</span>
+<span class="nc" id="L103">                .orElseThrow(() -&gt; new CustomException(ErrorCode.POST_NOT_FOUND));</span>
+    }
+
+    private void checkAuthor(Post post, Member member) {
+<span class="nc bnc" id="L107" title="All 2 branches missed.">        if (!post.getAuthor().getId().equals(member.getId())) {</span>
+<span class="nc" id="L108">            throw new CustomException(ErrorCode.UNAUTHORIZED_ACCESS);</span>
+        }
+<span class="nc" id="L110">    }</span>
+
+    private int getAcceptedCount(Post post) {
+<span class="nc" id="L113">        return (int) applicationRepository.countByPostAndStatus(post, ApplicationStatus.ACCEPTED) + 1;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>
