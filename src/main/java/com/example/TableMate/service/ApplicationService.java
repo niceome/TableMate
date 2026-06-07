@@ -65,10 +65,7 @@ public class ApplicationService {
             throw new CustomException(ErrorCode.POST_ALREADY_CLOSED);
         }
 
-        Application application = applicationRepository.findAllByPost(post).stream()
-                .filter(a -> a.getApplicant().getId().equals(userId))
-                .findFirst()
-                .orElseThrow(() -> new CustomException(ErrorCode.APPLICATION_NOT_FOUND));
+        Application application = findApplicationByApplicant(post, userId);
 
         application.setStatus(ApplicationStatus.ACCEPTED);
 
@@ -97,12 +94,14 @@ public class ApplicationService {
         Post post = postService.findById(postId);
         checkAuthor(post, author);
 
-        Application application = applicationRepository.findAllByPost(post).stream()
-                .filter(a -> a.getApplicant().getId().equals(userId))
-                .findFirst()
-                .orElseThrow(() -> new CustomException(ErrorCode.APPLICATION_NOT_FOUND));
+        Application application = findApplicationByApplicant(post, userId);
 
         application.setStatus(ApplicationStatus.REJECTED);
+    }
+
+    private Application findApplicationByApplicant(Post post, Long userId) {
+        return applicationRepository.findByPostAndApplicantId(post, userId)
+                .orElseThrow(() -> new CustomException(ErrorCode.APPLICATION_NOT_FOUND));
     }
 
     private void checkAuthor(Post post, Member author) {
