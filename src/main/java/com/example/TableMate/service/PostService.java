@@ -62,10 +62,7 @@ public class PostService {
     @Transactional(readOnly = true)
     public List<PostResponse> getPosts(Member member, Cafeteria cafeteria, FoodType foodType, LocalTime meetingTime) {
         Set<FoodType> preferences = member.getFoodPreferences();
-        return postRepository.findAll().stream()
-                .filter(p -> cafeteria == null || p.getCafeteria() == cafeteria)
-                .filter(p -> foodType == null || p.getFoodType() == foodType)
-                .filter(p -> meetingTime == null || p.getMeetingTime().equals(meetingTime))
+        return postRepository.findByFilters(cafeteria, foodType, meetingTime).stream()
                 .sorted(Comparator
                         .comparingInt((Post p) -> preferences.contains(p.getFoodType()) ? 0 : 1)
                         .thenComparing(Comparator.comparing(Post::getCreatedAt).reversed()))
